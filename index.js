@@ -1,15 +1,22 @@
 const fs = require('fs')
 const node_ssh = require('node-ssh')
-const config = require('./default.config.json')
+const defaultConfig = require('./default.config.json')
 const childProcess = require('child_process');
 const archiver  = require('archiver')
 
+const outConfig = require('../deploy.config.json')
+
+config = mergeConfig(outConfig, defaultConfig)
+
 init(config)
 
-async function init(config) {
-  let {servers, build} = config
+function mergeConfig (outConfig, defaultConfig) {
+  console.log('混合配置...')
+  return outConfig? Object.assign(outConfig, defaultConfig):  defaultConfig
+}
 
-  // await execBuild(build.script)
+async function init(config) {
+  await execBuild(build.script)
 
   await makeZip(config)
 

@@ -6,7 +6,7 @@
   },
   "build": {
     "script": "npm run build:t",
-    "fileName": "buyer-production",
+    "fileName": "buyer-product",
     "pathName": "dist/buyer-product"
   }
 }
