@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "host": "180.76.119.190",
+    "username": "root",
+    "password": "xcas956784@"
+  },
+  "build": {
+    "script": "npm run build:t",
+    "fileName": "buyer-production",
+    "pathName": "dist/buyer-product"
+  }
+}
