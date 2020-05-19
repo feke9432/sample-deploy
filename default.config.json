@@ -1,12 +1,15 @@
 {
   "servers": {
-    "host": "180.76.119.190",
-    "username": "root",
-    "password": "xcas956784@"
+    "host": "",
+    "username": "",
+    "password": ""
   },
   "build": {
     "script": "npm run build:t",
-    "fileName": "buyer-product",
-    "pathName": "dist/buyer-product"
+    "pathName": "dist"
+  },
+  "remote": {
+    "path": "/var/www/",
+    "dirName": "dist"
   }
 }

@@ -2,6 +2,7 @@ const fs = require("fs");
 const node_ssh = require("node-ssh");
 const defaultConfig = require("./default.config.json");
 const childProcess = require("child_process");
+const process = require("process");
 const archiver = require("archiver");
 
 const outConfig = require("../../deploy.config.json");
@@ -9,11 +10,17 @@ const projectDir = process.cwd();
 
 let config = mergeConfig(outConfig, defaultConfig);
 console.log(projectDir);
+
 init(config);
 
 function mergeConfig(outConfig, defaultConfig) {
   console.log("混合配置...");
-  return outConfig ? Object.assign(defaultConfig, outConfig) : defaultConfig;
+
+  let _config = outConfig
+    ? Object.assign(defaultConfig, outConfig)
+    : defaultConfig;
+
+  return _config;
 }
 
 async function init(config) {
@@ -24,7 +31,7 @@ async function init(config) {
 
   await connect(config);
 
-  childProcess.execSync("del dist.zip", { cwd: projectDir });
+  deleteZip(config.remote.dirName);
 
   process.exit(0);
 }
@@ -45,12 +52,14 @@ function execBuild(script) {
       }
     );
   }).catch(err => {
+    console.log("打包失败");
     console.log(err);
+    process.exit(1);
   });
 }
 
 function makeZip(config) {
-  let { build } = config;
+  let { build, remote } = config;
   const archive = archiver("zip", {
     zlib: { level: 9 }
   }).on("error", err => {
@@ -58,31 +67,33 @@ function makeZip(config) {
   });
 
   // 创建文件输出流
-  const output = fs.createWriteStream(__dirname + "/dist.zip");
+  const output = fs.createWriteStream(projectDir + `/${remote.dirName}.zip`);
 
   // 通过管道方法将输出流存档到文件
   archive.pipe(output);
 
   // 从subdir子目录追加内容并重命名
-  archive.directory(build.pathName, build.fileName);
+  archive.directory(build.pathName, remote.dirName);
 
   // 完成打包归档
   archive.finalize();
-  console.log("完成打包");
+  console.log("完成压缩");
+}
+
+function deleteZip(dirName) {
+  childProcess.execSync(`del ${projectDir}\\${dirName}.zip`, {
+    cwd: projectDir
+  });
 }
 
 async function connect(config) {
   const ssh = new node_ssh();
-
-  const zipFileName = "dist.zip";
-  const remotePath = "/var/www/";
+  const { path, dirName } = config.remote;
+  const zipFileName = `${dirName}.zip`;
+  const remotePath = path;
 
   try {
-    await ssh.connect({
-      host: config.servers.host,
-      username: config.servers.username,
-      password: config.servers.password
-    });
+    await ssh.connect(config.servers);
     console.log("链接成功!");
 
     let path = projectDir + `\\${zipFileName}`;
@@ -94,7 +105,9 @@ async function connect(config) {
 
     console.log("文件上传成功");
 
-    await ssh.execCommand(`rm -rf buyer-production`, { cwd: remotePath });
+    await ssh.execCommand(`rm -rf ${dirName}`, { cwd: remotePath });
+
+    console.log("删除远程目录成功");
 
     await ssh.execCommand(`unzip ${zipFileName}`, { cwd: remotePath });
 
@@ -105,6 +118,7 @@ async function connect(config) {
     console.log("删除远程文件");
   } catch (error) {
     console.error("上传失败", ":", error);
-    process.exit(0);
+    deleteZip(dirName);
+    process.exit(1);
   }
 }

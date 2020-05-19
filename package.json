@@ -4,8 +4,7 @@
   "description": "前端轻量级自动化部署方案",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "build:t": "New-Item -Name dist -type directory"
+    "test": "node index.js"
   },
   "keywords": [],
   "author": "",
