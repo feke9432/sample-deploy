@@ -7,7 +7,7 @@
   "compressType": "tar",
   "local": {
     "script": "npm run build:t",
-    "pathName": "dist"
+    "pathName": "src"
   },
   "remote": {
     "path": "/var/www/",

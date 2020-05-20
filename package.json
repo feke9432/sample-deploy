@@ -1,10 +1,10 @@
 {
   "name": "web-auto-deployment",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "前端轻量级自动化部署方案",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node test.js"
   },
   "keywords": [],
   "author": "",
