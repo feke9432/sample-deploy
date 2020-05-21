@@ -1,3 +1,11 @@
+/*
+ * @Author: Feke_Hunter
+ * @Date: 2020-05-20 15:59:00
+ * @LastEditTime: 2020-05-21 10:13:28
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \sample-deploy\src\compressed\index.js
+ */ 
 const fs = require('fs')
 const archiver = require('archiver')
 const {Log, outProcess} = require('../utils')
