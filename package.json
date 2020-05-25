@@ -4,7 +4,7 @@
   "description": "前端轻量级自动化部署方案",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
     "archiver": "^4.0.1",
     "chalk": "^4.0.0",
     "child_process": "^1.0.2",
+    "commander": "^5.1.0",
     "node-ssh": "^10.0.0"
   }
 }
