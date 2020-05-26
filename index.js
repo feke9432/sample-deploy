@@ -1,23 +1,44 @@
-const { program } = require('commander');
+const chalk = require('chalk');
 const init = require('./src')
 
-program
-  .option('-z, --keepZip', '保留压缩文件')
-  .option('-p, --production', '生产模式，保留压缩文件，并不上传')
-
-function GetOption(program) {
+function GetOption() {
     let opts = {
         keepZip: false,
         production: false
     }
-    if (program.keepZip) {
-        opts.keepZip = true
-    }
+    let argvs = process.argv
 
-    if (program.production) {
-        opts.production = true
+    if (argvs.length > 2) {
+        tips()
     }
+    
+    let i = argvs.length
+    while(i > 0) {
+        for(let j in opts) {
+            let reg = new RegExp(`\=?${j}\\b`)
+            if (reg.test(argvs[i])) {
+                opts[j] = true
+            }
+        }   
+        i --
+    }
+    return opts
 }
 
-init(GetOption(program))
+function tips() {
+    console.log(chalk.green(`
+    使用提示:
+
+    支持参数：
+
+        keepZip  =>  保留本地压缩包
+        production  =>  保留本地压缩包，并且不上传服务器
+    
+    使用方法：
+
+    如命令为 npm run deploy
+    添加参数 npm run deploy args=keepZip,production 可多个
+    `))
+}
+init(GetOption())
   

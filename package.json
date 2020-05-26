@@ -1,8 +1,11 @@
 {
   "name": "web-auto-deployment",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "前端轻量级自动化部署方案",
   "main": "index.js",
+  "bin": {
+    "md-deploy": "./bin/md-deploy"
+  },
   "scripts": {
     "test": "node index.js"
   },
@@ -13,7 +16,6 @@
     "archiver": "^4.0.1",
     "chalk": "^4.0.0",
     "child_process": "^1.0.2",
-    "commander": "^5.1.0",
     "node-ssh": "^10.0.0"
   }
 }
