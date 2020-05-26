@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-05-18 13:39:55
+ * @LastEditTime: 2020-05-21 11:16:46
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \sample-deploy\README.md
+--> 
 # sample-deploy
 nodejs 写的部署脚本
 
@@ -40,17 +48,22 @@ nodejs 写的部署脚本
 },
 ```
 
-4. 需要部署时 运行命令 `npm run deploy` :)
+4. 需要部署时 运行命令 `npm run deploy ` :)
 
+## 议问
+
+1. 直接使用 密码是不是不好，最好使用密匙
 
 ## 待实现功能
 
 1. 测试环境和正式环境分开
-
-2. 单元测试
 
 3. 找出最合适的压缩文件格式，自动判断服务器是否支持此格式，不支持则选择最优的
 
 4. 支持直接目录上传
 
 5. 通过指令跳过打包阶段，直接上传
+
+6. 显示正在打包状态，显示打包时间
+
+2. 单元测试
