@@ -7,7 +7,7 @@
  * @FilePath: \sample-deploy\src\connect\index.js
  */ 
 const node_ssh = require('node-ssh')
-const compressedTypeMap = require('./compressedTypeMap')
+const compressedTypeMap = require('../compressed/compressedTypeMap')
 const {Log} = require('../utils')
 const projectDir = process.cwd()
 

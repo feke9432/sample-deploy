@@ -1,8 +1,8 @@
 {
   "servers": {
-    "host": "",
-    "username": "",
-    "password": ""
+    "host": "180.76.119.190",
+    "username": "root",
+    "password": "xcas956784@"
   },
   "compressType": "tar",
   "local": {

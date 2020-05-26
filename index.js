@@ -1,29 +1,23 @@
-const runCommand = require('./src/runCommand')
-const config = require('./src/getConfig')
-const compress = require('./src/compressed')
-const connectAndUpload = require('./src/connect')
-const { Log } = require('./src/utils')
-const delectLoaclZip = require('./src/delectLoaclZip')
+const { program } = require('commander');
+const init = require('./src')
 
-async function init() {
-  try {
-    // 用户打包
-    await runCommand(config.local.script)
-    Log('打包完成')
+program
+  .option('-z, --keepZip', '保留压缩文件')
+  .option('-p, --production', '生产模式，保留压缩文件，并不上传')
 
-    await compress(config)
-    Log('压缩完成')
+function GetOption(program) {
+    let opts = {
+        keepZip: false,
+        production: false
+    }
+    if (program.keepZip) {
+        opts.keepZip = true
+    }
 
-    await connectAndUpload(config)
-
-    await delectLoaclZip(config)
-    Log('删除本地文件')
-    process.exit()
-  } catch (error) {
-    delectLoaclZip(config).then(() => {
-      process.exit(1)
-    })
-  }
+    if (program.production) {
+        opts.production = true
+    }
 }
 
-init()
+init(GetOption(program))
+  
